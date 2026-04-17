@@ -1,0 +1,34 @@
+fn main() {
+    // 1. Константи для розмірів (краще брати непарні числа для симетрії ромба)
+    const WIDTH: i32 = 15;
+    const HEIGHT: i32 = 15;
+
+    let mut output = String::new();
+
+    // Розраховуємо центр для малювання ромба
+    let mid_x = WIDTH / 2;
+    let mid_y = HEIGHT / 2;
+
+    for y in 0..HEIGHT {
+        for x in 0..WIDTH {
+            // Умови малювання:
+            // 1. Рамка прямокутника
+            let is_border = y == 0 || y == HEIGHT - 1 || x == 0 || x == WIDTH - 1;
+            
+            // 2. Логіка ромба: сума відстаней від центру по X та Y
+            // Формула: |x - mid_x| + |y - mid_y| == mid_x
+            let is_diamond = (x - mid_x).abs() + (y - mid_y).abs() == mid_x;
+
+            if is_border || is_diamond {
+                output.push('*');
+            } else {
+                output.push(' ');
+            }
+        }
+        output.push('\n');
+    }
+
+    // 3. Вивід згідно з обмеженнями
+    print!("{}", output);
+    println!("--- Ромб готовий ---");
+}
