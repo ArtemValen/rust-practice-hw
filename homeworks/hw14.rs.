@@ -1,0 +1,26 @@
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    // Створюємо список прямокутників
+    let rects = vec![
+        Rectangle { width: 10, height: 5 },
+        Rectangle { width: 3, height: 4 },
+        Rectangle { width: 1, height: 10 },
+    ];
+
+    let total_area = area_occupied(&rects);
+
+    println!("Прямокутників у списку: {}", rects.len());
+    println!("Загальна зайнята площа: {}", total_area);
+}
+
+/// Функція рахує сумарну площу всіх прямокутників у векторі
+fn area_occupied(rects: &Vec<Rectangle>) -> u32 {
+    // Використовуємо ітератор для обчислення площі кожного та їх сумування
+    rects.iter()
+        .map(|r| r.width * r.height)
+        .sum()
+}
