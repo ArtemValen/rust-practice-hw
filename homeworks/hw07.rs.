@@ -1,0 +1,28 @@
+fn main() {
+    let input_text = "Hello, Rust World!";
+
+    // 1. Перетворення всього тексту у верхній регістр
+    let upper = input_text.to_uppercase();
+
+    // 2. Перетворення всього тексту у нижній регістр
+    let lower = input_text.to_lowercase();
+
+    // Виведення результатів
+    println!("Оригінал: {}", input_text);
+    println!("Верхній регістр: {}", upper);
+    println!("Нижній регістр: {}", lower);
+
+    // Додатково: приклад інверсії регістру для кожного символу
+    let swapped: String = input_text
+        .chars()
+        .map(|c| {
+            if c.is_uppercase() {
+                c.to_lowercase().to_string()
+            } else {
+                c.to_uppercase().to_string()
+            }
+        })
+        .collect();
+
+    println!("Інверсія регістру: {}", swapped);
+}
