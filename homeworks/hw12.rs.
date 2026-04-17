@@ -1,0 +1,48 @@
+fn main() {
+    // Приклад використання
+    let shipments = gen_shipments(5);
+    println!("Кораблі з вантажем: {:?}", shipments);
+
+    let moves = count_permutation(&shipments);
+    println!("Мінімальна кількість перенесень: {}", moves);
+}
+
+// 1. Функція розрахунку мінімальних перенесень
+fn count_permutation(shipments: &Vec<u32>) -> usize {
+    let size = shipments.len();
+    if size == 0 { return 0; }
+
+    let total: u32 = shipments.iter().sum();
+    
+    // Якщо порівну поділити не можна, повертаємо 0 (або можна змінити логіку)
+    if total % size as u32 != 0 {
+        return 0; 
+    }
+
+    let average = total / size as u32;
+    let mut moves = 0;
+    let mut balance: i32 = 0;
+
+    // Проходимо по кораблях і рахуємо накопичений дефіцит або надлишок
+    for &s in shipments {
+        balance += s as i32 - average as i32;
+        moves += balance.abs() as usize;
+    }
+
+    moves
+}
+
+// 2. Функція генерації Vec<u32>, які точно можна розподілити порівну
+fn gen_shipments(n: usize) -> Vec<u32> {
+    // Щоб сума ділилася на n, зробимо кожен елемент однаковим (найпростіший шлях)
+    // або згенеруємо рандомні числа так, щоб сума була кратна n.
+    let avg = 10; // Середнє значення вантажу
+    vec![avg; n] 
+}
+
+/* ТЕОРЕТИЧНІ ВІДПОВІДІ:
+3. Чи завжди можливо? 
+   Ні, тільки якщо (сума вантажу) % (кількість кораблів) == 0.
+4. Інша сигнатура для випадку неможливості:
+   fn count_permutation(shipments: &Vec<u32>) -> Option<usize>
+*/
