@@ -1,0 +1,32 @@
+fn main() {
+    // Тесткейси
+    let test_str = "abcdefg";
+    let shift = 3;
+    
+    let rotated = rotate(test_str.to_string(), shift);
+    println!("Оригінал: {}", test_str);
+    println!("Зсув на {}: {}", shift, rotated);
+}
+
+fn rotate(s: String, n: isize) -> String {
+    if s.is_empty() {
+        return s;
+    }
+
+    let chars: Vec<char> = s.chars().collect();
+    let len = chars.len() as isize;
+    
+    // Знаходимо реальний зсув через залишок від ділення
+    // Це дозволяє обробляти n більше за довжину рядка та від'ємні n
+    let shift = ((n % len) + len) % len;
+    let split_point = (len - shift) as usize;
+
+    let (left, right) = chars.split_at(split_point);
+    
+    // Збираємо новий рядок: спочатку права частина, потім ліва
+    let mut result = String::new();
+    result.extend(right);
+    result.extend(left);
+    
+    result
+}
