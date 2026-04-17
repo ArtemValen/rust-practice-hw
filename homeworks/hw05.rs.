@@ -1,0 +1,19 @@
+fn main() {
+    // 1. Вхідні дані (можеш змінити на будь-які інші числа)
+    let mut a = 48;
+    let mut b = 18;
+    
+    let original_a = a;
+    let original_b = b;
+
+    // 2. Алгоритм Евкліда (циклічний варіант)
+    while b != 0 {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    // 3. Виведення результату
+    // Результат зберігається в змінній 'a' після завершення циклу
+    println!("Greatest Common Divisor of {} and {} is: {}", original_a, original_b, a);
+}
