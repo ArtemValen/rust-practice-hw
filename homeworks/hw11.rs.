@@ -1,0 +1,65 @@
+use std::time::{SystemTime, UNIX_EPOCH};
+
+fn main() {
+    // 1. Генеруємо вектор
+    let vector = gen_random_vector(20);
+    
+    // 2. Знаходимо мінімальну пару
+    let min_pair = min_adjacent_sum(&vector);
+    
+    // 3. Виводимо результат
+    print_result(&vector, min_pair);
+}
+
+// Функція генерації рандомного вектора [10..99]
+fn gen_random_vector(n: usize) -> Vec<i32> {
+    let mut vec = Vec::with_capacity(n);
+    // Використовуємо системний час як seed для рандому
+    let mut seed = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
+
+    for _ in 0..n {
+        // Проста формула рандому: (seed * a + c) % m
+        seed = (seed.wrapping_mul(1103515245).wrapping_add(12345)) % 2147483648;
+        let val = (seed % 90 + 10) as i32; // Діапазон [10..99]
+        vec.push(val);
+    }
+    vec
+}
+
+// Знаходимо пару сусідніх елементів з мінімальною сумою
+fn min_adjacent_sum(data: &[i32]) -> Option<(i32, i32)> {
+    if data.len() < 2 {
+        return None;
+    }
+
+    let mut min_sum = i32::MAX;
+    let mut pair = (data[0], data[1]);
+
+    // Використовуємо вікно з 2 елементів (windows(2))
+    for window in data.windows(2) {
+        let current_sum = window[0] + window[1];
+        if current_sum < min_sum {
+            min_sum = current_sum;
+            pair = (window[0], window[1]);
+        }
+    }
+
+    Some(pair)
+}
+
+// Функція гарного виводу в консоль
+fn print_result(vec: &[i32], min_pair: Option<(i32, i32)>) {
+    println!("Generated vector: {:?}", vec);
+    match min_pair {
+        Some((a, b)) => {
+            println!("-------------------------------------------");
+            println!("Minimal adjacent sum pair: ({}, {})", a, b);
+            println!("Sum: {}", a + b);
+            println!("-------------------------------------------");
+        }
+        None => println!("Vector is too short to find a pair."),
+    }
+}
