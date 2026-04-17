@@ -1,0 +1,28 @@
+fn main() {
+    let n = 12321; // Число для перевірки
+
+    if is_palindrome(n) {
+        println!("Число {} є паліндромом!", n);
+    } else {
+        println!("Число {} не є паліндромом.", n);
+    }
+}
+
+fn is_palindrome(mut n: u64) -> bool {
+    // Від'ємні числа не можуть бути паліндромами через знак мінус
+    // Числа, що закінчуються на 0 (крім самого 0), теж не паліндроми
+    if n == 0 { return true; }
+    if n % 10 == 0 { return false; }
+
+    let original = n;
+    let mut reversed = 0;
+
+    // Математично розвертаємо число
+    while n > 0 {
+        let digit = n % 10;
+        reversed = reversed * 10 + digit;
+        n /= 10;
+    }
+
+    original == reversed
+}
