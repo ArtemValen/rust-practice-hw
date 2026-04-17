@@ -1,0 +1,57 @@
+fn main() {
+    let solutions = solve_rebus();
+    
+    println!("Знайдено рішень: {}", solutions.len());
+    
+    for (m, u, x, a, s, l, o, n) in solutions {
+        println!("\nРішення:");
+        println!("  {}{}{}{}", m, u, x, a);
+        println!("x      {}", a);
+        println!("-------");
+        println!("  {}{}{}{}", s, l, o, n);
+        println!("Де: m={}, u={}, x={}, a={}, s={}, l={}, o={}, n={}", m, u, x, a, s, l, o, n);
+    }
+}
+
+fn solve_rebus() -> Vec<(u32, u32, u32, u32, u32, u32, u32, u32)> {
+    let mut results = Vec::new();
+
+    // Перебираємо всі можливі цифри для кожної літери (0-9)
+    for m in 1..=9 { // Перша цифра числа не може бути 0
+        for u in 0..=9 {
+            for x in 0..=9 {
+                for a in 1..=9 { // Множник (a) та остання цифра теж не 0 для 4-значного результату
+                    
+                    let muxa = m * 1000 + u * 100 + x * 10 + a;
+                    let slon = muxa * a;
+
+                    // Результат SLON має бути чотиризначним (1000-9999)
+                    if slon >= 1000 && slon <= 9999 {
+                        let s = slon / 1000;
+                        let l = (slon / 100) % 10;
+                        let o = (slon / 10) % 10;
+                        let n = slon % 10;
+
+                        let digits = vec![m, u, x, a, s, l, o, n];
+                        if has_unique_digits(&digits) {
+                            results.push((m, u, x, a, s, l, o, n));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    results
+}
+
+// Перевірка, щоб кожна літера була унікальною цифрою
+fn has_unique_digits(digits: &[u32]) -> bool {
+    for i in 0..digits.len() {
+        for j in i + 1..digits.len() {
+            if digits[i] == digits[j] {
+                return false;
+            }
+        }
+    }
+    true
+}
